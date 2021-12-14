@@ -10,11 +10,11 @@ import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 
 object CMD : CommandExecutor, TabCompleter {
-    private val args0 = listOf("create", "add", "remove")
-    override fun onCommand(p: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
-        if (p !is Player) return false
+    private val args0 = listOf("create", "add", "remove", "select")
+    override fun onCommand(player: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
+        if (player !is Player) return false
         if (args.isEmpty()) {
-            p.sendMessage("null")
+            player.sendMessage("null")
             return false
         }
         when (args[0]) {
@@ -22,16 +22,18 @@ object CMD : CommandExecutor, TabCompleter {
             }
             args0[0] -> {
                 if (args.size != 2) return false
-                if (AreaClass.createArea(args[1])) "$prefix §a생성 성공".toPlayer(p).also { return false }
-                "$prefix §c생성 실패".toPlayer(p).also { return false }
+                if (AreaClass.createArea(args[1])) "$prefix §a생성 성공".toPlayer(player).also { return false }
+                "$prefix §c생성 실패".toPlayer(player).also { return false }
             }
             args0[1] -> {}
             args0[2] -> {}
+            args0[3] -> AreaClass.selectModToggle(player)
         }
+
         return false
     }
 
-    override fun onTabComplete(p: CommandSender, cmd: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(player: CommandSender, cmd: Command, alias: String, args: Array<out String>): MutableList<String> {
         val list = mutableListOf<String>()
         val last = args.size - 1
         if (last == 0) {

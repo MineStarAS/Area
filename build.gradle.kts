@@ -25,8 +25,8 @@ dependencies {
     //project_TL
 
     //MineStar
-        implementation("kr.kro.minestar:Utility-API:1.4.0")
-//    implementation(files("C:\\Users\\MineStar\\Desktop\\MC Server folder\\libs\\Utility-API-1.3.1.jar"))
+        implementation("kr.kro.minestar:Utility-API:1.4.3")
+//    implementation(files("C:\\Users\\MineStar\\Desktop\\MC Server folder\\libs\\Utility-API-1.4.2.jar"))
 }
 
 tasks {
