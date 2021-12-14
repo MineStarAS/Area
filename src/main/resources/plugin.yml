@@ -1,7 +1,7 @@
 name: ${project.name}
 version: ${project.version}
-main: kr.kro.minestar.pack.Main
+main: kr.kro.minestar.area.Main
 api-version: 1.17
 authors: [ MineStar ]
 commands:
-  cmd:
+  area:
