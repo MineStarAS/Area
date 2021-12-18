@@ -10,34 +10,33 @@ import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 
 object CMD : CommandExecutor, TabCompleter {
-    private val args0 = listOf("create", "add", "remove", "clear", "display")
+    private enum class Args0 { CREATE, ADD, REMOVE, CLEAR, DISPLAY }
+
     override fun onCommand(player: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
         if (player !is Player) return false
         if (!player.isOp) return false
         if (args.isEmpty()) {
             "$prefix §eCommands List".toPlayer(player)
-            for (s in args0) "- $s".toPlayer(player)
+            for (s in Args0.values()) "- ${s.toString().lowercase()}".toPlayer(player)
             return false
         }
         val ex = "$prefix §c/area ${args[0]}"
-        when (args[0]) {
-            "test" -> {
-            }
-            args0[0] -> {
+        when (Args0.valueOf(args[0])) {
+            Args0.CREATE -> {
                 if (args.size != 2) "$ex <AreasName>".toPlayer(player).also { return false }
                 AreasClass.createArea(args[1]).script.toPlayer(player).also { return false }
             }
-            args0[1] -> {
+            Args0.ADD -> {
                 if (args.size != 2) "$ex <AreasName>".toPlayer(player).also { return false }
                 AreasClass.addSelectAreaToAreas(args[1], player).script.toPlayer(player).also { return false }
             }
-            args0[2] -> {
+            Args0.REMOVE -> {
                 if (args.size != 3) "$ex <AreasName> <Number>".toPlayer(player).also { return false }
                 args[2].toIntOrNull() ?: "$prefix §c'${args[2]}' 은/는 정수가 아닙니다.".toPlayer(player).also { return false }
                 AreasClass.removeArea(args[1], args[2].toInt()).script.toPlayer(player).also { return false }
             }
-            args0[3] -> AreasClass.selectAreaPosClear(player).script.toPlayer(player).also { return false }
-            args0[4] -> {
+            Args0.CLEAR -> AreasClass.selectAreaPosClear(player).script.toPlayer(player).also { return false }
+            Args0.DISPLAY -> {
                 val displayArgs = listOf("view", "add", "all", "remove", "clear")
                 if (args.size == 1) "$prefix §c구역 이름을 작성 해주시기 바랍니다.".toPlayer(player).also { return false }
                 if (args.size == 2) {
@@ -80,7 +79,7 @@ object CMD : CommandExecutor, TabCompleter {
         val last = args.size - 1
         if (!player.isOp) return list
         if (last == 0) {
-            for (s in args0) if (s.contains(args[last])) list.add(s)
+            for (s in Args0.values().tos) if (s.contains(args[last])) list.add(s)
             return list
         }
         if (!args0.contains(args[0])) return list
