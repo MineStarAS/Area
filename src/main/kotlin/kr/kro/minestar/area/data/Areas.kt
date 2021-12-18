@@ -56,9 +56,8 @@ class Areas(val name: String) {
         data.save(file)
     }
 
-    fun isInside(entity: Entity): Boolean {
+    fun isInside(loc : Location): Boolean {
         if (list.isEmpty()) return false
-        val loc = entity.location
         for (map in list) {
             map["pos1"] ?: continue
             map["pos2"] ?: continue
@@ -182,28 +181,33 @@ class Areas(val name: String) {
         task = null
     }
 
-    fun addDisplay(int: Int): Boolean {
-        if (list.size <= int || int < 0) return false
-        if (displayList.contains(int)) return false
+    fun addDisplay(int: Int): BooleanScript {
+        if (list.size <= int || int < 0) return false.addScript("$prefix §c해당 구역은 0 번 부터 ${list.size - 1} 번 까지만 존재 합니다.")
+        if (displayList.contains(int)) return false.addScript("$prefix §c$int 번 구역은 이미 추가되어 있습니다.")
         displayList.add(int)
-        return true
+        if (!isDisplaying()) onDisplay()
+        return true.addScript("$prefix §e$int §a번 구역을 표시 리스트에 추가 하였습니다.")
     }
 
-    fun allDisplay(): Boolean {
-        if (list.isEmpty()) return false
+    fun allDisplay(): BooleanScript {
+        if (list.isEmpty()) return false.addScript("$prefix §c해당 구역은 비어 있습니다.")
         clearDisplay()
         for (int in 0 until list.size) displayList.add(int)
-        return true
+        if (!isDisplaying()) onDisplay()
+        return true.addScript("$prefix §a해당 구역의 모든 구역을 표시 리스트에 추가 하였습니다.")
     }
 
-    fun removeDisplay(int: Int): Boolean {
-        if (!displayList.contains(int)) return false
+    fun removeDisplay(int: Int): BooleanScript {
+        if (list.size <= int || int < 0) return false.addScript("$prefix §c해당 구역은 0 번 부터 ${list.size - 1} 번 까지만 존재 합니다.")
+        if (!displayList.contains(int)) return false.addScript("$prefix §c$int 번 구역은 표시 리스트에 추가되어 있지 않습니다.")
         displayList.remove(int)
-        return true
+        return true.addScript("$prefix §e$int §f번 구역을 표시 리스트에서 제거 하였습니다.")
     }
 
-    fun clearDisplay(): Boolean {
+    fun clearDisplay(): BooleanScript {
+        if (displayList.isEmpty()) return false.addScript("$prefix §c해당 구역의 표시 리스트는 비어 있습니다.")
         displayList.clear()
-        return true
+        offDisplay()
+        return true.addScript("$prefix §a해당 구역의 표시 리스트를 초기화 하였습니다.")
     }
 }

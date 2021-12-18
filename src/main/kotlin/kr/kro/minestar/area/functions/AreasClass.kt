@@ -17,6 +17,8 @@ object AreasClass {
     val areasList = mutableListOf<Areas>()
     val SelectAreaMap = hashMapOf<Player, SelectArea>()
 
+    val nullArea = false.addScript("$prefix §c존재하지 않는 구역입니다.")
+
     /**
      * 데이터 폴더 내에 있는 모든 Areas 파일을 활성화 합니다.
      */
@@ -65,6 +67,14 @@ object AreasClass {
     }
 
     /**
+     * 이름이 name 과 같은 구역 안에 있는지 확인 합니다.
+     */
+    fun isInside(areasName: String, loc: Location): Boolean {
+        val areas = getArea(areasName) ?: return false
+        return areas.isInside(loc)
+    }
+
+    /**
      * name 과 같은 이름의 Areas 클래스를 가져옵니다.
      */
     fun getArea(name: String): Areas? {
@@ -93,7 +103,7 @@ object AreasClass {
      * SelectArea 클래스로 선택된 구역을 Areas 클래스에 추가합니다.
      */
     fun addSelectAreaToAreas(areasName: String, player: Player): BooleanScript {
-        val areas = getArea(areasName) ?: return false.addScript("$prefix §c존재하지 않는 구역입니다.")
+        val areas = getArea(areasName) ?: return nullArea
         val selArea = SelectAreaMap[player] ?: return false.addScript("$prefix §c플레이어의 선택모드를 찾을 수 없습니다.")
         val pos1 = selArea.getPos1() ?: return false.addScript("$prefix §cPos1 이/가 선택되지 않았습니다.")
         val pos2 = selArea.getPos2() ?: return false.addScript("$prefix §cPos2 이/가 선택되지 않았습니다.")
@@ -105,7 +115,7 @@ object AreasClass {
      * Areas의 int 번 구역을 삭제 합니다.
      */
     fun removeArea(areasName: String, int: Int): BooleanScript {
-        val areas = getArea(areasName) ?: return false.addScript("$prefix §c존재하지 않는 구역입니다.")
+        val areas = getArea(areasName) ?: return nullArea
         return areas.removeArea(int)
     }
 
@@ -182,45 +192,45 @@ object AreasClass {
     /**
      * Areas 의 Display 기능을 꺼져 있으면 켜고, 켜져 있으면 끕니다.
      */
-    fun areasDisplayOnOff(areasName: String): Boolean {
-        val areas = getArea(areasName) ?: return false
+    fun areasDisplayOnOff(areasName: String): BooleanScript {
+        val areas = getArea(areasName) ?: return nullArea
         if (areas.isDisplaying()) {
             areas.offDisplay()
-            return true
+            return true.addScript("$prefix §c구역 표시 기능을 끕니다.")
         }
         areas.onDisplay()
-        return true
+        return true.addScript("$prefix §a구역 표시 기능을 켭니다.")
     }
 
     /**
      * Areas 의 Display List 에 Display 할 Area 를 추가 합니다.
      */
-    fun areasDisplayAdd(areasName: String, int: Int): Boolean {
-        val areas = getArea(areasName) ?: return false
+    fun areasDisplayAdd(areasName: String, int: Int): BooleanScript {
+        val areas = getArea(areasName) ?: return nullArea
         return areas.addDisplay(int)
     }
 
     /**
      * Areas 의 Display List 에 모든 Area 를 추가 합니다.
      */
-    fun areasDisplayAddAll(areasName: String): Boolean {
-        val areas = getArea(areasName) ?: return false
+    fun areasDisplayAddAll(areasName: String): BooleanScript {
+        val areas = getArea(areasName) ?: return nullArea
         return areas.allDisplay()
     }
 
     /**
      *  Areas 의 Display List 에서 int 에 해당 하는 Area 를 제거 합니다.
      */
-    fun areasDisplayRemove(areasName: String, int: Int): Boolean {
-        val areas = getArea(areasName) ?: return false
+    fun areasDisplayRemove(areasName: String, int: Int): BooleanScript {
+        val areas = getArea(areasName) ?: return nullArea
         return areas.removeDisplay(int)
     }
 
     /**
      *  Areas 의 Display List 를 초기화 합니다.
      */
-    fun areasDisplayClear(areasName: String): Boolean {
-        val areas = getArea(areasName) ?: return false
+    fun areasDisplayClear(areasName: String): BooleanScript {
+        val areas = getArea(areasName) ?: return nullArea
         return areas.clearDisplay()
     }
 }

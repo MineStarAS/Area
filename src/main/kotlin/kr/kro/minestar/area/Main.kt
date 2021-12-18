@@ -2,7 +2,6 @@ package kr.kro.minestar.area
 
 import kr.kro.minestar.area.functions.AreasClass
 import kr.kro.minestar.area.functions.evnets.AlwaysEvent
-import kr.kro.minestar.test.commands.test.Test
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -16,7 +15,6 @@ class Main : JavaPlugin() {
         pl = this
         logger.info("$prefix §aEnable")
         getCommand("area")?.setExecutor(CMD)
-        getCommand("test")?.setExecutor(Test)
         Bukkit.getPluginManager().registerEvents(AlwaysEvent, this)
 
         AreasClass.areasEnable()
