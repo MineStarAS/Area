@@ -1,4 +1,4 @@
-package kr.kro.minestar.area.functions
+package kr.kro.minestar.area.data
 
 import kr.kro.minestar.area.Main.Companion.pl
 import kr.kro.minestar.area.Main.Companion.prefix
@@ -34,23 +34,29 @@ class SelectArea(val player: Player) {
 
     private var task: BukkitTask? = null
 
+    fun getPos1(): Location? {
+        return pos1
+    }
+
+    fun getPos2(): Location? {
+        return pos2
+    }
+
     fun setPos1(loc: Location): Boolean {
         if (pos1 == loc) return false
         if (pos2 != null && pos2!!.world != loc.world) return false
-        if (pos2 == loc.toBlockLocation()) return false
         pos1 = loc.toBlockLocation()
         contourEnable()
-        "$prefix §dPos1 설정됨.".toPlayer(player)
+        "$prefix §dPos1 이/가 [${pos1!!.blockX}, ${pos1!!.blockY}, ${pos1!!.blockZ}] 로 설정되었습니다.".toPlayer(player)
         return true
     }
 
     fun setPos2(loc: Location): Boolean {
         if (pos2 == loc) return false
         if (pos1 != null && pos1!!.world != loc.world) return false
-        if (pos1 == loc.toBlockLocation()) return false
         pos2 = loc.toBlockLocation()
         contourEnable()
-        "$prefix §dPos2 설정됨.".toPlayer(player)
+        "$prefix §dPos2 이/가 [${pos2!!.blockX}, ${pos2!!.blockY}, ${pos2!!.blockZ}] 로 설정되었습니다.".toPlayer(player)
         return true
     }
 
