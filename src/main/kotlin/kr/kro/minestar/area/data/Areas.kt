@@ -8,7 +8,6 @@ import kr.kro.minestar.utility.bool.addScript
 import kr.kro.minestar.utility.location.isInside
 import kr.kro.minestar.utility.location.toCenter
 import kr.kro.minestar.utility.particle.ParticleUtil
-import kr.kro.minestar.utility.yaml.clear
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Location
@@ -21,7 +20,7 @@ import java.io.File
 
 class Areas(val name: String) {
     private val file = File(pl.dataFolder, "$name.yml")
-    private val data = YamlConfiguration.loadConfiguration(file)
+    private var data = YamlConfiguration.loadConfiguration(file)
 
     private val list = mutableListOf<Map<String, Location>>()
 
@@ -51,7 +50,7 @@ class Areas(val name: String) {
      * control
      */
     fun save() {
-        data.clear()
+        data = YamlConfiguration()
         for ((int, pair) in list.withIndex()) data["$int"] = pair
         data.save(file)
     }

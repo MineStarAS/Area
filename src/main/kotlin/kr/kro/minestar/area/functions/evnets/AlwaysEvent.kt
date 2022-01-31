@@ -1,6 +1,7 @@
 package kr.kro.minestar.area.functions.evnets
 
 import kr.kro.minestar.area.functions.AreasClass
+import kr.kro.minestar.area.objects.ItemObject
 import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
@@ -16,7 +17,7 @@ object AlwaysEvent : Listener {
     fun selectPos(e: PlayerInteractEvent) {
         if (!e.player.isOp) return
         if (e.player.gameMode != GameMode.CREATIVE) return
-        if (e.player.inventory.itemInMainHand.type != Material.WOODEN_PICKAXE) return
+        if (e.player.inventory.itemInMainHand != ItemObject.positionSelector) return
         val select = AreasClass.SelectAreaMap[e.player] ?: return
         val block = e.clickedBlock ?: return
         when (e.action) {
